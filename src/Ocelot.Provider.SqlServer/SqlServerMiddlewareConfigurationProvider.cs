@@ -19,37 +19,34 @@
             var internalConfigCreator = builder.ApplicationServices.GetService<IInternalConfigurationCreator>();
             var internalConfigRepo = builder.ApplicationServices.GetService<IInternalConfigurationRepository>();
 
-            if (UsingConsul(fileConfigRepo))
+            if (UsingSqlServer(fileConfigRepo))
             {
-                await SetFileConfigInConsul(builder, fileConfigRepo, fileConfig, internalConfigCreator, internalConfigRepo);
+                await SetFileConfigInSqlServer(builder, fileConfigRepo, fileConfig, internalConfigCreator, internalConfigRepo);
             }
         };
 
-        private static bool UsingConsul(IFileConfigurationRepository fileConfigRepo)
+        private static bool UsingSqlServer(IFileConfigurationRepository fileConfigRepo)
         {
             return fileConfigRepo.GetType() == typeof(SqlServerFileConfigurationRepository);
         }
 
-        private static async Task SetFileConfigInConsul(IApplicationBuilder builder,
+        private static async Task SetFileConfigInSqlServer(IApplicationBuilder builder,
             IFileConfigurationRepository fileConfigRepo, IOptionsMonitor<FileConfiguration> fileConfig,
             IInternalConfigurationCreator internalConfigCreator, IInternalConfigurationRepository internalConfigRepo)
         {
-            // get the config from consul.
-            var fileConfigFromConsul = await fileConfigRepo.Get();
+            var fileConfigFromSqlServer = await fileConfigRepo.Get();
 
-            if (IsError(fileConfigFromConsul))
+            if (IsError(fileConfigFromSqlServer))
             {
-                ThrowToStopOcelotStarting(fileConfigFromConsul);
+                ThrowToStopOcelotStarting(fileConfigFromSqlServer);
             }
-            else if (ConfigNotStoredInConsul(fileConfigFromConsul))
+            else if (ConfigNotStoredInConsul(fileConfigFromSqlServer))
             {
-                //there was no config in consul set the file in config in consul
                 await fileConfigRepo.Set(fileConfig.CurrentValue);
             }
             else
             {
-                // create the internal config from consul data
-                var internalConfig = await internalConfigCreator.Create(fileConfigFromConsul.Data);
+                var internalConfig = await internalConfigCreator.Create(fileConfigFromSqlServer.Data);
 
                 if (IsError(internalConfig))
                 {
@@ -57,7 +54,6 @@
                 }
                 else
                 {
-                    // add the internal config to the internal repo
                     var response = internalConfigRepo.AddOrReplace(internalConfig.Data);
 
                     if (IsError(response))
@@ -83,9 +79,9 @@
             return response == null || response.IsError;
         }
 
-        private static bool ConfigNotStoredInConsul(Response<FileConfiguration> fileConfigFromConsul)
+        private static bool ConfigNotStoredInConsul(Response<FileConfiguration> fileConfigFromSqlServer)
         {
-            return fileConfigFromConsul.Data == null;
+            return fileConfigFromSqlServer.Data == null;
         }
     }
 }
