@@ -1,6 +1,7 @@
 Ó¢ÎÄ | [ÖÐÎÄ](README.zh-CN.md)
 # Ocelot.Provider.SqlServer
 Repo for store configuration in Microsoft SqlServer with [Ocelot](http://threemammals.com/ocelot)
+# Ocelot
 
 [<img src="http://threemammals.com/images/ocelot_logo.png">](http://threemammals.com/ocelot)
 
@@ -9,13 +10,12 @@ Windows (AppVeyor)
 [![Build Status](https://travis-ci.org/ThreeMammals/Ocelot.Provider.Consul.svg?branch=develop)](https://travis-ci.org/ThreeMammals/Ocelot.Provider.Consul) Linux & OSX (Travis)
 
 
-# Ocelot
 
-This package adds Microsoft SQL Server support to Ocelot.
+This package adds Microsoft SQL Server support to Ocelot configuration.
 
 ## How to install
 
-Install Ocelot.Provider.SqlServer and it's dependencies using NuGet. 
+Install Niyw.Ocelot.Provider.SqlServer and it's dependencies using NuGet. 
 
 `Install-Package Niyw.Ocelot.Provider.SqlServer`
 
@@ -24,3 +24,6 @@ Or via the .NET Core CLI:
 `dotnet add package Niyw.Ocelot.Provider.SqlServer`
 
 All versions can be found [here](https://www.nuget.org/packages/Niyw.Ocelot.Provider.SqlServer/)
+
+# Thanks
+Get some ideas from [Ocelot.Provider.Consul](https://github.com/ThreeMammals/Ocelot.Provider.Consul)
