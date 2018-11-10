@@ -1,4 +1,4 @@
-Ó¢ÎÄ | [ÖÐÎÄ](README.zh-CN.md)
+è‹±æ–‡ | [ä¸­æ–‡](README.zh-CN.md)
 # Ocelot.Provider.SqlServer
 Repo for store configuration in Microsoft SqlServer with [Ocelot](http://threemammals.com/ocelot)
 # Ocelot
