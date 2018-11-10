@@ -2,13 +2,13 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <AssemblyVersion>0.1.0.0</AssemblyVersion>
-    <FileVersion>0.1.0.0</FileVersion>
+    <AssemblyVersion>0.2.0.0</AssemblyVersion>
+    <FileVersion>0.2.0.0</FileVersion>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Version>0.1.0-alpha</Version>
+    <Version>0.2.0-alpha</Version>
     <Company />
     <Authors>Yanwei Ni</Authors>
-    <Description>package for store configuration in MS SqlServer with Ocelot</Description>
+    <Description>package for store configuration in MS SqlServer with Ocelot.</Description>
     <PackageId>Niyw.Ocelot.Provider.SqlServer</PackageId>
     <AssemblyName>Niyw.Ocelot.Provider.SqlServer</AssemblyName>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
