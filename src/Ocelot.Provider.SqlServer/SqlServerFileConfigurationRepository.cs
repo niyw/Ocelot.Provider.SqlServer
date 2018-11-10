@@ -7,16 +7,21 @@
     using Newtonsoft.Json;
     using Responses;
     using System.Linq;
+    using Microsoft.EntityFrameworkCore;
+    using Microsoft.Extensions.Configuration;
+    using Microsoft.Extensions.DependencyInjection;
+    using System.Reflection;
 
     public class SqlServerFileConfigurationRepository : IFileConfigurationRepository {
         private readonly string _configurationKey;
         private readonly Cache.IOcelotCache<FileConfiguration> _cache;
         private readonly IOcelotLogger _logger;
-        private readonly OcelotConfigurationContext _ocelotConfigurationContext;
+        private readonly OcelotConfigDbContext _ocelotConfigurationContext;
+        //private IServiceProvider _serviceProvider;
         public SqlServerFileConfigurationRepository(
             Cache.IOcelotCache<FileConfiguration> cache,
             IInternalConfigurationRepository repo,
-            OcelotConfigurationContext ocelotConfigurationContext,
+            IConfiguration configuration,
             IOcelotLoggerFactory loggerFactory) {
             _logger = loggerFactory.CreateLogger<SqlServerFileConfigurationRepository>();
             _cache = cache;
@@ -33,7 +38,18 @@
                     internalConfig.Data.ServiceProviderConfiguration.ConfigurationKey : _configurationKey;
             }
 
-            _ocelotConfigurationContext = ocelotConfigurationContext;
+            var nsbAuthDBConnStr = configuration.GetConnectionString("OcelotConfigDB");
+            var optionsBuilder = new DbContextOptionsBuilder<OcelotConfigDbContext>();
+            //var migrationsAssembly = GetType().GetTypeInfo().Assembly.GetName().Name;
+            //optionsBuilder.UseSqlServer(nsbAuthDBConnStr,sql => sql.MigrationsAssembly(migrationsAssembly));
+            optionsBuilder.UseSqlServer(nsbAuthDBConnStr);
+            _ocelotConfigurationContext = new OcelotConfigDbContext(optionsBuilder.Options);
+            //_ocelotConfigurationContext = serviceProvider.GetService<OcelotConfigDbContext>();
+           
+        }
+
+        public void MigrateDb() {
+           // _ocelotConfigurationContext.Database.Migrate();
         }
 
         public async Task<Response<FileConfiguration>> Get() {

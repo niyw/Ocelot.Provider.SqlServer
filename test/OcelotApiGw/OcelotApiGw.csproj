@@ -14,4 +14,8 @@
     <PackageReference Include="Ocelot" Version="12.1.0-unstable0009" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\Ocelot.Provider.SqlServer\Ocelot.Provider.SqlServer.csproj" />
+  </ItemGroup>
+
 </Project>
