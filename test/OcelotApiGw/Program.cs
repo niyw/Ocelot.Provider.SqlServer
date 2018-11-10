@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore;
+﻿using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Logging;
+using Ocelot.DependencyInjection;
 
 namespace OcelotApiGw {
     public class Program {
@@ -16,6 +11,16 @@ namespace OcelotApiGw {
 
         public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
+                        .ConfigureAppConfiguration((hostingContext, config) =>
+                        {
+                            config
+                                .SetBasePath(hostingContext.HostingEnvironment.ContentRootPath)
+                                .AddJsonFile("appsettings.json", true, true)
+                                .AddJsonFile($"appsettings.{hostingContext.HostingEnvironment.EnvironmentName}.json", true, true)
+                                //.AddJsonFile("ocelot.json", optional:false, reloadOnChange:true)
+                                .AddOcelot(hostingContext.HostingEnvironment)
+                                .AddEnvironmentVariables();
+                        })
                 .UseStartup<Startup>();
     }
 }

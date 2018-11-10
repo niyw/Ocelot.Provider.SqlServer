@@ -1,0 +1,28 @@
+﻿{
+  "ReRoutes": [
+    {
+      "DownstreamPathTemplate": "/{url}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 2801
+        }
+      ],
+      "UpstreamPathTemplate": "/svr1/{url}",
+      "UpstreamHttpMethod": [ "Get" ]
+    },
+    {
+      "DownstreamPathTemplate": "/{url}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 2802
+        }
+      ],
+      "UpstreamPathTemplate": "/svr2/{url}",
+      "UpstreamHttpMethod": [ "Get" ]
+    }
+  ]
+}

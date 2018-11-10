@@ -1,0 +1,11 @@
+﻿{
+  "GlobalConfiguration": {
+    "RateLimitOptions": {
+      "ClientIdHeader": "ClientId", /*specifiy the header that should be used to identify clients*/
+      "QuotaExceededMessage": "Exceeded access quota limit", /*This value specifies the exceeded message*/
+      "RateLimitCounterPrefix": "ocelot",
+      "DisableRateLimitHeaders": false, /*This value specifies whether X-Rate-Limit and Rety-After headers are disabled.*/
+      "HttpStatusCode": 429
+    }
+  }
+}

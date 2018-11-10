@@ -17,7 +17,7 @@ namespace AspNetCoreApiService1.Controllers {
         // GET api/values/5
         [HttpGet("{id}")]
         public ActionResult<string> Get(int id) {
-            return "value";
+            return $"you get {id} from asp.net core 2.1 api services";
         }
 
         // POST api/values
