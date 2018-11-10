@@ -1,4 +1,4 @@
-[英文](README.md) | 中文
+[English](README.md) | 中文 | [更新说明](ReleaseNotes.md) | [Release Notes](ReleaseNotes.en-US.md)
 # Ocelot.Provider.SqlServer
 使用Microsoft SQL Server存储[Ocelot](http://threemammals.com/ocelot)配置项
 

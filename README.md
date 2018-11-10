@@ -1,4 +1,4 @@
-英文 | [中文](README.zh-CN.md)
+English | [中文](README.zh-CN.md) | [更新说明](ReleaseNotes.md) | [Release Notes](ReleaseNotes.en-US.md)
 # Ocelot.Provider.SqlServer
 Repo for store configuration in Microsoft SqlServer with [Ocelot](http://threemammals.com/ocelot)
 # Ocelot
