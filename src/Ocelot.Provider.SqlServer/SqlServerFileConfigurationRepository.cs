@@ -17,7 +17,6 @@
         private readonly Cache.IOcelotCache<FileConfiguration> _cache;
         private readonly IOcelotLogger _logger;
         private readonly OcelotConfigDbContext _ocelotConfigurationContext;
-        //private IServiceProvider _serviceProvider;
         public SqlServerFileConfigurationRepository(
             Cache.IOcelotCache<FileConfiguration> cache,
             IInternalConfigurationRepository repo,
@@ -40,16 +39,8 @@
 
             var nsbAuthDBConnStr = configuration.GetConnectionString("OcelotConfigDB");
             var optionsBuilder = new DbContextOptionsBuilder<OcelotConfigDbContext>();
-            //var migrationsAssembly = GetType().GetTypeInfo().Assembly.GetName().Name;
-            //optionsBuilder.UseSqlServer(nsbAuthDBConnStr,sql => sql.MigrationsAssembly(migrationsAssembly));
             optionsBuilder.UseSqlServer(nsbAuthDBConnStr);
             _ocelotConfigurationContext = new OcelotConfigDbContext(optionsBuilder.Options);
-            //_ocelotConfigurationContext = serviceProvider.GetService<OcelotConfigDbContext>();
-           
-        }
-
-        public void MigrateDb() {
-           // _ocelotConfigurationContext.Database.Migrate();
         }
 
         public async Task<Response<FileConfiguration>> Get() {

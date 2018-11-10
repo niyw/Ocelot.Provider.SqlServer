@@ -13,9 +13,6 @@ namespace Ocelot.Provider.SqlServer {
             builder.Services.AddSingleton(SqlServerMiddlewareConfigurationProvider.Get);
             builder.Services.AddHostedService<FileConfigurationPoller>();
             builder.Services.AddSingleton<IFileConfigurationRepository, SqlServerFileConfigurationRepository>();
-
-            //builder.Services.BuildServiceProvider().GetRequiredService<SqlServerFileConfigurationRepository>().MigrateDb();
-
             return builder;
         }
     }
