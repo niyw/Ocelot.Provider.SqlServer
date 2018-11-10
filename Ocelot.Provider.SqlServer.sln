@@ -7,6 +7,14 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ocelot.Provider.SqlServer",
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{1E5444A0-00D9-42A0-9847-5D33DD252990}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{C6DC0564-02ED-4C83-A80C-8158726E90CD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AspNetFxApiService1", "test\AspNetFxApiService1\AspNetFxApiService1.csproj", "{D0988FB2-A0F9-4940-A24B-441049F6E10B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AspNetCoreApiService1", "test\AspNetCoreApiService1\AspNetCoreApiService1.csproj", "{94C00E94-8F88-4E54-BCB8-5533368336B3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OcelotApiGw", "test\OcelotApiGw\OcelotApiGw.csproj", "{4281F259-0346-415F-BC62-97B05D9DA4A0}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -17,12 +25,27 @@ Global
 		{CAE0D926-FC4B-4CB1-91A2-F99EDA790DEC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CAE0D926-FC4B-4CB1-91A2-F99EDA790DEC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CAE0D926-FC4B-4CB1-91A2-F99EDA790DEC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D0988FB2-A0F9-4940-A24B-441049F6E10B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D0988FB2-A0F9-4940-A24B-441049F6E10B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D0988FB2-A0F9-4940-A24B-441049F6E10B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D0988FB2-A0F9-4940-A24B-441049F6E10B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{94C00E94-8F88-4E54-BCB8-5533368336B3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{94C00E94-8F88-4E54-BCB8-5533368336B3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{94C00E94-8F88-4E54-BCB8-5533368336B3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{94C00E94-8F88-4E54-BCB8-5533368336B3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4281F259-0346-415F-BC62-97B05D9DA4A0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4281F259-0346-415F-BC62-97B05D9DA4A0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4281F259-0346-415F-BC62-97B05D9DA4A0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4281F259-0346-415F-BC62-97B05D9DA4A0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{CAE0D926-FC4B-4CB1-91A2-F99EDA790DEC} = {1E5444A0-00D9-42A0-9847-5D33DD252990}
+		{D0988FB2-A0F9-4940-A24B-441049F6E10B} = {C6DC0564-02ED-4C83-A80C-8158726E90CD}
+		{94C00E94-8F88-4E54-BCB8-5533368336B3} = {C6DC0564-02ED-4C83-A80C-8158726E90CD}
+		{4281F259-0346-415F-BC62-97B05D9DA4A0} = {C6DC0564-02ED-4C83-A80C-8158726E90CD}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {DEA16C66-8F5D-44E2-96D4-7E56259B876A}
