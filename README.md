@@ -25,5 +25,11 @@ Or via the .NET Core CLI:
 
 All versions can be found [here](https://www.nuget.org/packages/Niyw.Ocelot.Provider.SqlServer/)
 
+## How to Run
+
+cd to 'test\OcelotApiGw' forder, via the .NET Core CLI:
+
+`dotnet ef migrations add InitialOcelotConfigDbMigration -c OcelotConfigDbContext -o DbMigrations/OcelotConfigDb`
+
 # Thanks
 Get some ideas from [Ocelot.Provider.Consul](https://github.com/ThreeMammals/Ocelot.Provider.Consul)
