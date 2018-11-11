@@ -27,9 +27,11 @@ All versions can be found [here](https://www.nuget.org/packages/Niyw.Ocelot.Prov
 
 ## How to Run
 
-cd to 'test\OcelotApiGw' forder, via the .NET Core CLI:
+- cd to 'test\OcelotApiGw' forder, via the .NET Core CLI:
 
 `dotnet ef migrations add InitialOcelotConfigDbMigration -c OcelotConfigDbContext -o DbMigrations/OcelotConfigDb`
+
+- Lunch Project OcelotApiGw
 
 # Thanks
 Get some ideas from [Ocelot.Provider.Consul](https://github.com/ThreeMammals/Ocelot.Provider.Consul)

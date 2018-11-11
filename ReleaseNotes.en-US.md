@@ -1,6 +1,9 @@
 [English](README.md)  | [中文](README.zh-CN.md) | [更新说明](ReleaseNotes.md) | Release Notes
 # Package Update
 
+## v0.3.0
+- provide Ocelot config db configuration options
+
 ## v0.2.0
 - It can read/write ocelot config from MS Sqlserver，please refere the test project ‘OcelotApiGw’
 

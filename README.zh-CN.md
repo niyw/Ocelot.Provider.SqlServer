@@ -25,9 +25,11 @@ Windows (AppVeyor)
 此包的所有版本 [在此](https://www.nuget.org/packages/Niyw.Ocelot.Provider.SqlServer/)
 
 ## 如何运行
-切换到目录‘test\OcelotApiGw’，在.NET Core CLI中执行：
+- 切换到目录‘test\OcelotApiGw’，在.NET Core CLI中执行：
 
 `dotnet ef migrations add InitialOcelotConfigDbMigration -c OcelotConfigDbContext -o DbMigrations/OcelotConfigDb`
+
+- 启动测试项目
 
 # 鸣谢
 此包开发从[Ocelot.Provider.Consul](https://github.com/ThreeMammals/Ocelot.Provider.Consul)获取一些帮助。

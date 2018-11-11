@@ -2,10 +2,10 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <AssemblyVersion>0.2.0.0</AssemblyVersion>
-    <FileVersion>0.2.0.0</FileVersion>
+    <AssemblyVersion>0.3.0.0</AssemblyVersion>
+    <FileVersion>0.3.0.0</FileVersion>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Version>0.2.0</Version>
+    <Version>0.3.0</Version>
     <Company />
     <Authors>Yanwei Ni</Authors>
     <Description>package for store configuration in MS SqlServer with Ocelot.</Description>
@@ -14,17 +14,8 @@
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
     <PackageProjectUrl>https://github.com/niyw/Ocelot.Provider.SqlServer</PackageProjectUrl>
     <RepositoryUrl>https://github.com/niyw/Ocelot.Provider.SqlServer</RepositoryUrl>
-    <PackageReleaseNotes>中文：
-此包尚处于开发阶段，不适用于生产环境，仅用于技术研究和交流；
-
-0.2.0:
-已实现从Sql Server读写配置，具体请参考https://github.com/niyw/Ocelot.Provider.SqlServer测试项目OcelotApiGw
-
-English:
-This package is in development stage, not ready for production. it's just for research and communication
-
-0.2.0:
-It can read/write ocelot config from MS Sqlserver，please refere the test project ‘OcelotApiGw’ in https://github.com/niyw/Ocelot.Provider.SqlServer.</PackageReleaseNotes>
+    <PackageReleaseNotes>请参考(please refer)https://github.com/niyw/Ocelot.Provider.SqlServer/blob/master/ReleaseNotes.md
+</PackageReleaseNotes>
   </PropertyGroup>
 
   <ItemGroup>
