@@ -21,6 +21,7 @@
             Cache.IOcelotCache<FileConfiguration> cache,
             IInternalConfigurationRepository repo,
             IConfiguration configuration,
+            OcelotConfigDbConfiguration ocelotConfigDbConfiguration,
             IOcelotLoggerFactory loggerFactory) {
             _logger = loggerFactory.CreateLogger<SqlServerFileConfigurationRepository>();
             _cache = cache;
@@ -37,10 +38,13 @@
                     internalConfig.Data.ServiceProviderConfiguration.ConfigurationKey : _configurationKey;
             }
 
-            var nsbAuthDBConnStr = configuration.GetConnectionString("OcelotConfigDB");
+            var nsbAuthDBConnStr = configuration.GetConnectionString(ocelotConfigDbConfiguration.ConnectionName);
+            if (string.IsNullOrWhiteSpace(nsbAuthDBConnStr))
+                nsbAuthDBConnStr = ocelotConfigDbConfiguration.ConnectionString;
+            
             var optionsBuilder = new DbContextOptionsBuilder<OcelotConfigDbContext>();
             optionsBuilder.UseSqlServer(nsbAuthDBConnStr);
-            _ocelotConfigurationContext = new OcelotConfigDbContext(optionsBuilder.Options);
+            _ocelotConfigurationContext = new OcelotConfigDbContext(optionsBuilder.Options, ocelotConfigDbConfiguration);
         }
 
         public async Task<Response<FileConfiguration>> Get() {

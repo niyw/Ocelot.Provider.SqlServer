@@ -26,7 +26,14 @@ namespace OcelotApiGw {
                 sql => sql.MigrationsAssembly(migrationsAssembly)));
 
             services.AddOcelot()
-                .AddConfigStoredInSQLServer();
+                .AddConfigStoredInSQLServer(cfg=> {
+                    //set ocelot config db connectionstring name in appsetting.json, default is "OcelotConfigDB"
+                    cfg.ConnectionName = "OcelotConfigDB";
+                    //set ocelot config db connectionstring herer, default is empty; you must set one of connectionName and ConnectionString
+                    //cfg.ConnectionString = nsbAuthDBConnStr;
+                    //set ocelot config table in sqlserver, default is "Ocelot_Configs"
+                    //cfg.ConfigTableName = "Ocelot_Configs";
+                });
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }
 
