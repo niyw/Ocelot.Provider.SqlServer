@@ -7,7 +7,7 @@ namespace Ocelot.Provider.SqlServer {
         public int Id { get; set; }
         public string Section { get; set; } = OcelotConfigurationSection.All;
         public string Payload { get; set; }
-        public DateTime CreateTime { get; set; }
-        public DateTime LastUpdate { get; set; }
+        public DateTime CreateTime { get; set; } = DateTime.Now;
+        public DateTime LastUpdate { get; set; } = DateTime.Now;
     }
 }

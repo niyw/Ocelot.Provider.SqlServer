@@ -1,12 +1,15 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿using IdentityServer4.AccessTokenValidation;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Ocelot.Administration;
 using Ocelot.DependencyInjection;
 using Ocelot.Middleware;
 using Ocelot.Provider.SqlServer;
+using System;
 using System.Reflection;
 
 namespace OcelotApiGw {
@@ -25,6 +28,13 @@ namespace OcelotApiGw {
                 nsbAuthDBConnStr,
                 sql => sql.MigrationsAssembly(migrationsAssembly)));
 
+            Action<IdentityServerAuthenticationOptions> idpOptions = o => {
+                o.Authority = @"http://localhost:8500";
+                o.ApiName = "apigw.admin";
+                o.RequireHttpsMetadata = false;
+                o.SupportedTokens = SupportedTokens.Both;
+            };
+
             services.AddOcelot()
                 .AddConfigStoredInSQLServer(cfg=> {
                     //set ocelot config db connectionstring name in appsetting.json, default is "OcelotConfigDB"
@@ -33,7 +43,8 @@ namespace OcelotApiGw {
                     //cfg.ConnectionString = nsbAuthDBConnStr;
                     //set ocelot config table in sqlserver, default is "Ocelot_Configs"
                     //cfg.ConfigTableName = "Ocelot_Configs";
-                });
+                })
+                .AddAdministration("/admin", idpOptions);
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }
 
@@ -44,8 +55,9 @@ namespace OcelotApiGw {
             if (env.IsDevelopment()) {
                 app.UseDeveloperExceptionPage();
             }
-            app.UseOcelot().Wait();
+            app.UseAuthentication();
             app.UseMvc();
+            app.UseOcelot().Wait();
         }
 
         private void InitializeDatabase(IApplicationBuilder app) {
