@@ -47,17 +47,12 @@
 
         public async Task<Response<FileConfiguration>> Get() {
             var config = _cache.Get(_configurationKey, _configurationKey);
-
             if (config != null) 
                 return new OkResponse<FileConfiguration>(config);
-
             var ocelotCfg = await (from o in _ocelotConfigurationContext.ConfigModels where o.Section == OcelotConfigurationSection.All select o).FirstOrDefaultAsync();
-
             if (ocelotCfg==null)
-                return new OkResponse<FileConfiguration>(null);            
-
+                return new OkResponse<FileConfiguration>(null);
             var consulConfig = JsonConvert.DeserializeObject<FileConfiguration>(ocelotCfg.Payload); 
-
             return new OkResponse<FileConfiguration>(consulConfig);
         }
 
@@ -80,7 +75,8 @@
                     for (int i = 1; i < idList.Count; i++)
                         _ocelotConfigurationContext.ConfigModels.Remove(_ocelotConfigurationContext.ConfigModels.Where(o => o.Id == idList[i]).First());
                     await _ocelotConfigurationContext.SaveChangesAsync();
-                }
+                }               
+                _cache.AddAndDelete(_configurationKey, ocelotConfiguration, new TimeSpan(0, 0, 15), null);
                 return new OkResponse();
             }
             catch(Exception ex) {

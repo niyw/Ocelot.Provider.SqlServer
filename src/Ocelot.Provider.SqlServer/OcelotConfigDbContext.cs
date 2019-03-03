@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using System;
 
 namespace Ocelot.Provider.SqlServer {
     public class OcelotConfigDbContext : DbContext {
