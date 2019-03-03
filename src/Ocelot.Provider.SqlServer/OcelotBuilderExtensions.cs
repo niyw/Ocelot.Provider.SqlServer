@@ -2,7 +2,6 @@
 namespace Ocelot.Provider.SqlServer {
     using Configuration.Repository;
     using DependencyInjection;
-    using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.DependencyInjection;
     using System;
 
@@ -17,6 +16,7 @@ namespace Ocelot.Provider.SqlServer {
             builder.Services.AddSingleton(SqlServerMiddlewareConfigurationProvider.Get);
             builder.Services.AddHostedService<FileConfigurationPoller>();
             builder.Services.AddSingleton<IFileConfigurationRepository, SqlServerFileConfigurationRepository>();
+            builder.Services.Remove(new ServiceDescriptor(typeof(IFileConfigurationRepository), typeof(DiskFileConfigurationRepository)));
             return builder;
         }
     }

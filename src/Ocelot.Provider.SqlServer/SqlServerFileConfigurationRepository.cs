@@ -9,8 +9,6 @@
     using System.Linq;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Configuration;
-    using Microsoft.Extensions.DependencyInjection;
-    using System.Reflection;
 
     public class SqlServerFileConfigurationRepository : IFileConfigurationRepository {
         private readonly string _configurationKey;
@@ -53,7 +51,7 @@
             if (config != null) 
                 return new OkResponse<FileConfiguration>(config);
 
-            var ocelotCfg = (from o in _ocelotConfigurationContext.ConfigModels where o.Section == OcelotConfigurationSection.All select o).FirstOrDefault();
+            var ocelotCfg = await (from o in _ocelotConfigurationContext.ConfigModels where o.Section == OcelotConfigurationSection.All select o).FirstOrDefaultAsync();
 
             if (ocelotCfg==null)
                 return new OkResponse<FileConfiguration>(null);            
