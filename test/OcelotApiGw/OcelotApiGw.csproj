@@ -2,10 +2,15 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp2.1</TargetFramework>
+    <UserSecretsId>ade16ee4-6b3a-4b4d-b1d1-e09933081267</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>
     <Folder Include="wwwroot\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="Properties\PublishProfiles\apimgt1 - Web Deploy.pubxml.user" />
   </ItemGroup>
 
   <ItemGroup>
