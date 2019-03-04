@@ -50,6 +50,7 @@ namespace OcelotApiGw {
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env) {
+            NLog.GlobalDiagnosticsContext.Set("connectionString", Configuration.GetConnectionString("NsbApiGwDB"));
             // this will do the initial DB population
             InitializeDatabase(app);
             if (env.IsDevelopment()) {
