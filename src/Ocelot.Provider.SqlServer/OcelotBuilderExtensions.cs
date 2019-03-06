@@ -18,7 +18,7 @@ namespace Ocelot.Provider.SqlServer {
             builder.Services.AddSingleton<IFileConfigurationRepository, SqlServerFileConfigurationRepository>();
             builder.Services.AddSingleton<IOcelotCache<FileConfiguration>, OcelotConfigCache>();
             builder.Services.Remove(new ServiceDescriptor(typeof(IFileConfigurationRepository), typeof(DiskFileConfigurationRepository)));
-            builder.Services.Remove(new ServiceDescriptor(typeof(IOcelotCache<FileConfiguration>), typeof(NoCache<FileConfiguration>)));
+            builder.Services.Remove(new ServiceDescriptor(typeof(IOcelotCache<FileConfiguration>), typeof(InMemoryCache<FileConfiguration>)));
             return builder;
         }
     }
