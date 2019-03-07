@@ -23,21 +23,25 @@ namespace OcelotApiGw.Controllers {
             _logger = logger;
         }
         [HttpGet]
-        public async Task<List<RouteRule>> Get() {
+        public async Task<IEnumerable<RouteRule>> Get() {
             var repo = await _repo.Get();
             var fileRoutes = repo.Data.ReRoutes;
             List<RouteRule> routeRules = new List<RouteRule>();
+            if (fileRoutes == null || fileRoutes.Count == 0)
+                return routeRules;
             foreach (var fileRoute in fileRoutes)
                 routeRules.Add(ObjectConverter.ConvertToRouteRule(fileRoute));
             return routeRules;
         }
 
-        [HttpGet]
-        public async Task<RouteRule> Get(string Id) {
+        [HttpGet("{id}")]
+        public async Task<IActionResult> Get(string id) {
             var repo = await _repo.Get();
-            var fileRoute = repo.Data.ReRoutes.Where(r => r.Key == Id).FirstOrDefault();
+            var fileRoute = repo.Data.ReRoutes.Where(r => r.Key == id).FirstOrDefault();
+            if (fileRoute == null)
+                return new BadRequestObjectResult(new {Code=1,Message="the rule is not exist." });
             RouteRule rule = ObjectConverter.ConvertToRouteRule(fileRoute);
-            return rule;
+            return new OkObjectResult(rule);
         }
         [HttpPost]
         public async Task<IActionResult> Post([FromBody]RouteRule routeRule) {
@@ -64,7 +68,7 @@ namespace OcelotApiGw.Controllers {
                 return new BadRequestObjectResult($"{e.Message}:{e.StackTrace}");
             }
         }
-        [HttpPut]
+        [HttpPut("{id}")]
         public async Task<IActionResult> Put(string id, [FromBody]RouteRule routeRule) {
             var repo = await _repo.Get();
             var fileConfiguration = repo.Data;

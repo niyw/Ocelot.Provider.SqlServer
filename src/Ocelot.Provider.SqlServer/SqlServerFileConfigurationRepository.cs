@@ -23,13 +23,9 @@
             IOcelotLoggerFactory loggerFactory) {
             _logger = loggerFactory.CreateLogger<SqlServerFileConfigurationRepository>();
             _cache = cache;
-
             var internalConfig = repo.Get();
-
             _configurationKey = "InternalConfiguration";
-
             string token = null;
-
             if (!internalConfig.IsError) {
                 token = internalConfig.Data.ServiceProviderConfiguration.Token;
                 _configurationKey = !string.IsNullOrEmpty(internalConfig.Data.ServiceProviderConfiguration.ConfigurationKey) ?
@@ -39,29 +35,34 @@
             var nsbAuthDBConnStr = configuration.GetConnectionString(ocelotConfigDbConfiguration.ConnectionName);
             if (string.IsNullOrWhiteSpace(nsbAuthDBConnStr))
                 nsbAuthDBConnStr = ocelotConfigDbConfiguration.ConnectionString;
-            
+
             var optionsBuilder = new DbContextOptionsBuilder<OcelotConfigDbContext>();
             optionsBuilder.UseSqlServer(nsbAuthDBConnStr);
             _ocelotConfigurationContext = new OcelotConfigDbContext(optionsBuilder.Options, ocelotConfigDbConfiguration);
         }
 
         public async Task<Response<FileConfiguration>> Get() {
+            _logger.LogInformation("Get route rules");
             var config = _cache.Get(_configurationKey, _configurationKey);
-            if (config != null) 
-                return new OkResponse<FileConfiguration>(config);
-            var ocelotCfg = await (from o in _ocelotConfigurationContext.ConfigModels where o.Section == OcelotConfigurationSection.All select o).FirstOrDefaultAsync();
-            if (ocelotCfg==null)
-                return new OkResponse<FileConfiguration>(null);
-            var consulConfig = JsonConvert.DeserializeObject<FileConfiguration>(ocelotCfg.Payload); 
-            return new OkResponse<FileConfiguration>(consulConfig);
+            if (config == null) {
+                var ocelotCfg = await (from o in _ocelotConfigurationContext.ConfigModels where o.Section == OcelotConfigurationSection.All select o).FirstOrDefaultAsync();
+                _logger.LogInformation("Get route rules from DB");
+                if (ocelotCfg != null) {
+                    config = JsonConvert.DeserializeObject<FileConfiguration>(ocelotCfg.Payload);
+                    _cache.AddAndDelete(_configurationKey, config, new TimeSpan(0, 0, 15), null);
+                }
+            }
+            return new OkResponse<FileConfiguration>(config);
         }
 
         public async Task<Response> Set(FileConfiguration ocelotConfiguration) {
             try {
+                _logger.LogInformation("Set route rules");
                 var cfgPayload = JsonConvert.SerializeObject(ocelotConfiguration, Formatting.Indented);
                 var ocelotCfg = from g in _ocelotConfigurationContext.ConfigModels where g.Section == OcelotConfigurationSection.All select g.Id;
                 if (ocelotCfg.Count() == 0) {
-                    _ocelotConfigurationContext.ConfigModels.Add(new OcelotConfigurationModel {
+                    _ocelotConfigurationContext.ConfigModels.Add(new OcelotConfigurationModel
+                    {
                         Section = OcelotConfigurationSection.All,
                         Payload = cfgPayload
                     });
@@ -75,11 +76,12 @@
                     for (int i = 1; i < idList.Count; i++)
                         _ocelotConfigurationContext.ConfigModels.Remove(_ocelotConfigurationContext.ConfigModels.Where(o => o.Id == idList[i]).First());
                     await _ocelotConfigurationContext.SaveChangesAsync();
-                }               
+                }
                 _cache.AddAndDelete(_configurationKey, ocelotConfiguration, new TimeSpan(0, 0, 15), null);
+                _logger.LogInformation("Set route rules cache");
                 return new OkResponse();
             }
-            catch(Exception ex) {
+            catch (Exception ex) {
                 return new ErrorResponse(new SetConfigInSqlServerError($"Failed to set FileConfiguration in sql server, error message:{ex.Message}"));
             }
         }
