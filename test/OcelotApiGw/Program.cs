@@ -32,7 +32,7 @@ namespace OcelotApiGw {
                                 .SetBasePath(hostingContext.HostingEnvironment.ContentRootPath)
                                 .AddJsonFile("appsettings.json", true, true)
                                 .AddJsonFile($"appsettings.{hostingContext.HostingEnvironment.EnvironmentName}.json", true, true)
-                                .AddOcelot(hostingContext.HostingEnvironment)
+                                //.AddOcelot(hostingContext.HostingEnvironment)
                                 .AddEnvironmentVariables();
                         })
                         .ConfigureLogging(logging =>

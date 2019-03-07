@@ -39,6 +39,7 @@ namespace OcelotApiGw {
                 .AddConfigStoredInSQLServer(cfg=> {
                     //set ocelot config db connectionstring name in appsetting.json, default is "OcelotConfigDB"
                     cfg.ConnectionName = "OcelotConfigDB";
+                    cfg.ConnectionString = Configuration.GetConnectionString("OcelotConfigDB");
                     //set ocelot config db connectionstring herer, default is empty; you must set one of connectionName and ConnectionString
                     //cfg.ConnectionString = nsbAuthDBConnStr;
                     //set ocelot config table in sqlserver, default is "Ocelot_Configs"
@@ -52,7 +53,7 @@ namespace OcelotApiGw {
         public void Configure(IApplicationBuilder app, IHostingEnvironment env) {
             NLog.GlobalDiagnosticsContext.Set("connectionString", Configuration.GetConnectionString("OcelotConfigDB"));
             // this will do the initial DB population
-            InitializeDatabase(app);
+            //InitializeDatabase(app);
             if (env.IsDevelopment()) {
                 app.UseDeveloperExceptionPage();
             }
