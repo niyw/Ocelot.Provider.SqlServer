@@ -5,15 +5,13 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using OcelotApiGw.Models;
-using Ocelot.Configuration.File;
 using Ocelot.Configuration.Repository;
 using Ocelot.Configuration.Setter;
 
 namespace OcelotApiGw.Controllers {
     [Route("api/[controller]")]
     [ApiController]
-    public class RouteController : ControllerBase
-    {
+    public class RouteController : ControllerBase {
         private readonly IFileConfigurationRepository _repo;
         private readonly IFileConfigurationSetter _setter;
         private readonly IServiceProvider _provider;
@@ -29,15 +27,15 @@ namespace OcelotApiGw.Controllers {
             var repo = await _repo.Get();
             var fileRoutes = repo.Data.ReRoutes;
             List<RouteRule> routeRules = new List<RouteRule>();
-            foreach (var fileRoute in fileRoutes) 
-                routeRules.Add(ObjectConverter.ConvertToRouteRule(fileRoute));            
+            foreach (var fileRoute in fileRoutes)
+                routeRules.Add(ObjectConverter.ConvertToRouteRule(fileRoute));
             return routeRules;
         }
 
         [HttpGet]
-        public async Task<RouteRule> Get(string spId) {
+        public async Task<RouteRule> Get(string Id) {
             var repo = await _repo.Get();
-            var fileRoute = repo.Data.ReRoutes.Where(r => r.Key == spId).FirstOrDefault();
+            var fileRoute = repo.Data.ReRoutes.Where(r => r.Key == Id).FirstOrDefault();
             RouteRule rule = ObjectConverter.ConvertToRouteRule(fileRoute);
             return rule;
         }
@@ -48,7 +46,7 @@ namespace OcelotApiGw.Controllers {
                 var fileConfiguration = repo.Data;
                 var reRoute = fileConfiguration.ReRoutes.Where(r => r.Key == routeRule.ApiGwSuffix).FirstOrDefault();
                 if (reRoute == null) {
-                    var fileReRoute = ObjectConverter.ConvertToFileReRoute(routeRule);                    
+                    var fileReRoute = ObjectConverter.ConvertToFileReRoute(routeRule);
                     fileConfiguration.ReRoutes.Add(fileReRoute);
                     var response = await _setter.Set(fileConfiguration);
                     if (response.IsError) {
@@ -67,11 +65,27 @@ namespace OcelotApiGw.Controllers {
             }
         }
         [HttpPut]
-        public async Task<IActionResult> Put() {
+        public async Task<IActionResult> Put(string id, [FromBody]RouteRule routeRule) {
+            var repo = await _repo.Get();
+            var fileConfiguration = repo.Data;
+            var reRoute = fileConfiguration.ReRoutes.Where(r => r.Key == routeRule.ApiGwSuffix).FirstOrDefault();
+            if (reRoute == null) 
+                return new BadRequestObjectResult("The route rule is not exist.");
+
+            var newRoute = ObjectConverter.ConvertToFileReRoute(routeRule);
+            reRoute.UpstreamPathTemplate = newRoute.UpstreamPathTemplate;
+            reRoute.DownstreamScheme = newRoute.DownstreamScheme;
+            reRoute.DownstreamHostAndPorts = newRoute.DownstreamHostAndPorts;
+            reRoute.DownstreamPathTemplate = newRoute.DownstreamPathTemplate;
+            reRoute.AuthenticationOptions = newRoute.AuthenticationOptions;
             return new OkObjectResult("OK");
         }
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(string id) {
+            var repo = await _repo.Get();
+            var fileRoute = repo.Data.ReRoutes.Where(r => r.Key == id).FirstOrDefault();
+            if (fileRoute != null)
+                repo.Data.ReRoutes.Remove(fileRoute);
             return new OkObjectResult("OK");
         }
     }
